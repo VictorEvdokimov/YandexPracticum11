@@ -1,10 +1,12 @@
+import './pages/index.css';
+
+const serverUrl = process.env.NODE_ENV === 'development' ? 'http://praktikum.tk/cohort5' : 'https://praktikum.tk/cohort5'
 let idProfile = '';
 
 class Api{
   constructor(options) {
-    /* Можно лучше: адрес сервера и ключ авторизации нужно передавать через параметр конструктора options  */
-    this.baseUrl = 'http://95.216.175.5/cohort5';
-    this.token = '764b7d37-6c81-493b-bddf-01325b213ef0';
+    this.baseUrl = options.baseUrl;
+    this.token = options.token;
   }
 
   getInitialCards(doFunction) {
@@ -91,7 +93,10 @@ class Api{
   }
 }
 
-const api = new Api();
+const api = new Api({
+  'baseUrl': serverUrl,
+  'token': '764b7d37-6c81-493b-bddf-01325b213ef0'
+});
 
 
 class Profile{
