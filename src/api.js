@@ -1,4 +1,4 @@
-class Api{
+export class Api{
     constructor(options) {
       this.baseUrl = options.baseUrl;
       this.token = options.token;
@@ -87,5 +87,3 @@ class Api{
       this.fetchData(`${this.baseUrl}/cards/${id}`, 'DELETE', doFunction);
     }
   }
-
-  export 
