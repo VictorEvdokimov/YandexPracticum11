@@ -1,10 +1,10 @@
 import './pages/index.css';
-import {Api} from './api.js';
-import {Profile} from './profile.js';
-import {CardList} from './cardList.js';
-import {PopupShowCard, PopupNewCard, PopupEditProfile, PopupEditAvatar} from './popup.js';
+import { Api } from './api.js';
+import { Profile } from './profile.js';
+import { CardList } from './cardList.js';
+import { PopupShowCard, PopupNewCard, PopupEditProfile, PopupEditAvatar } from './popup.js';
 
-const serverUrl = process.env.NODE_ENV === 'development' ? 'http://praktikum.tk/cohort5' : 'https://praktikum.tk/cohort5'
+const serverUrl = NODE_ENV === 'development' ? 'http://praktikum.tk/cohort5' : 'https://praktikum.tk/cohort5'
 let idProfile = '';
 
 const api = new Api({
@@ -34,18 +34,18 @@ popupAvatar.userInfoFoto.addEventListener('click', popupAvatar.open.bind(popupAv
 api.getProfile((result) => {
   new Profile(result.name, result.about, result.avatar, result._id).update();
   idProfile = result._id;
-  
+
   const popupCard = new PopupNewCard(document.querySelector('#card'), placesList, idProfile, api);
   popupCard.eventListenerSubmit(popupCard.submit);
   popupCard.eventListenerInput(popupCard.render);
-  
+
   addPopupButton.addEventListener('click', popupCard.open.bind(popupCard));
-  
+
   api.getInitialCards((result) => {
-    result.forEach(function(item) {
+    result.forEach(function (item) {
       placesList.addCard(item, idProfile, api);
     });
-  })  
+  })
 });
 
 
@@ -56,15 +56,15 @@ api.getProfile((result) => {
   - изменения на странице происходят только после ответа сервера
   - код хорошо организован
 
-  Можно лучше: 
+  Можно лучше:
   - менять надпись на кнопке нужно в блоке finally
   - передавать настройки сервера как параметры конструктора, а не хардкодить в самом классе
   - не дублировать проверку ответа сервера
 
-  Так же хочу обратить внимание на альтернативное решение данной задачи. 
+  Так же хочу обратить внимание на альтернативное решение данной задачи.
   Сейчас для выполнения действий после ответа сервера в метод запроса передается
   колбэк, а можно было все зделать на промисах, их также можно возвращать из метода, вот пример кода:
-  Метод getUserData класса Api: 
+  Метод getUserData класса Api:
     getUserData() { //в методе getUserData делаем запрос к серверу и
       return fetch(`${this.baseUrl}/users/me`,{ // <-- возвращаем промис с данными
         headers: this.headers
